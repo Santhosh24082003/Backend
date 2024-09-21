@@ -95,7 +95,7 @@ pdf_files = {
     'C:\\Users\\chend\\Desktop\\New folder\\Mech\\Backend\\kb\\Diesel': 'C:\\Users\\chend\\Desktop\\New folder\\Mech\\Backend\\kb\\Diesel\\Diesel KB.pdf'
 }
 
-@app.route('/uploads', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
     title_data = []
@@ -168,7 +168,7 @@ def index():
                 'title_data': to_markdown("\n".join(title_data)),
                 'detected_components': detected_components
             }
-    return result
+    return render_template('index.html', result=result, image_url=image_url)
 
 if __name__ == '__main__':
     app.run(debug=False, use_reloader=False)
