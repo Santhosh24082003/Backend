@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanical Engine Component Detection and Image Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Mechanical Engine Component Detection and Image Finder</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if image_url %}
+        <h2>Uploaded Image:</h2>
+        <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 100%; height: auto;">
+    {% endif %}
+
+    {% if result %}
+        {% if result.title_data %}
+        <h2>Title Data:</h2>
+        <div>
+            <pre>{{ result.title_data }}</pre>
+        </div>
+        {% endif %}
+        {% if result.detected_components %}
+        <h2>Detected Components:</h2>
+        <ul>
+            {% for component in result.detected_components %}
+                <li>{{ component }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if result == "No matching PDF found for the detected folder." %}
+        <p>{{ result }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
