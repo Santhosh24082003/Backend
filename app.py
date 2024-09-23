@@ -13,11 +13,14 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain.chains.retrieval_qa.base import RetrievalQA
 import warnings
+from flask_cors import CORS
+
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+CORS(app)
 # Ensure upload folder exists
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -95,7 +98,7 @@ pdf_files = {
     'C:\\Users\\chend\\Desktop\\New folder\\Mech\\Backend\\kb\\Diesel': 'C:\\Users\\chend\\Desktop\\New folder\\Mech\\Backend\\kb\\Diesel\\Diesel KB.pdf'
 }
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/uploads', methods=['GET', 'POST'])
 def index():
     result = None
     title_data = []
@@ -168,7 +171,7 @@ def index():
                 'title_data': to_markdown("\n".join(title_data)),
                 'detected_components': detected_components
             }
-    return render_template('index.html', result=result, image_url=image_url)
+    return result
 
 if __name__ == '__main__':
     app.run(debug=False, use_reloader=False)
